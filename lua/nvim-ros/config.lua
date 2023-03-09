@@ -2,6 +2,10 @@ local M = {}
 
 ---@class NvimRosConfig
 M.defaults = {
+  ---@type string Format string for vim.notify messages
+  notify_format = '[nvim-ros] %s',
+  ---@type string Logging level (off, error, warn, info, debug, trace)
+  log_level = 'warn',
 }
 
 ---@class NvimRosConfig
