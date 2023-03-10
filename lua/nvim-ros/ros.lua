@@ -25,4 +25,18 @@ end
 ---@return table? List of { name, path } pairs.
 function M.list_messages() return M._call('list_messages') end
 
+---Get a list of ROS packages.
+---@return table List of { name, path } pairs.
+function M.list_packages()
+  local packages = {}
+  Logger:debug('Calling `rospack list` to get a list of packages')
+  local lines = vim.fn.systemlist('rospack list')
+  for _, line in ipairs(lines) do
+    local name, path = line:match('^(%S+)%s+(%S+)$')
+    if name and path then table.insert(packages, { name, path }) end
+  end
+  Logger:debug('Parsed ' .. #packages .. ' packages')
+  return packages
+end
+
 return M
