@@ -9,7 +9,7 @@ local python_path = nil
 
 ---Call a Python function from nvim_ros module.
 ---@param fname string Name of the function to call.
----@return table
+---@return table?
 function M._call(fname)
   if python_path == nil then
     python_path = Config.me .. '/python'
@@ -17,12 +17,12 @@ function M._call(fname)
     vim.fn.py3eval('sys.path.insert(0, "' .. python_path .. '")')
   end
   local expr = '__import__("nvim_ros").' .. fname .. '()'
-  Logger:debug('Evaluating Python expression: ' .. expr)
+  Logger:debug('Evaluating Python expression `' .. expr .. '`')
   return vim.fn.py3eval(expr)
 end
 
----Get the list of ROS messages.
----@return table
+---Get a list of ROS messages.
+---@return table? List of { name, path } pairs.
 function M.list_messages() return M._call('list_messages') end
 
 return M
