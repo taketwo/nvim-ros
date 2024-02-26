@@ -1,3 +1,4 @@
+from functools import partial
 from pathlib import Path
 from typing import List, Tuple
 
@@ -5,11 +6,12 @@ import rosmsg
 import rospkg
 
 
-def list_messages() -> List[Tuple[str, str]]:
-    """List all ROS messages in all packages.
+def _list_types(kind: str) -> List[Tuple[str, str]]:
+    """List all ROS types of a given kind in all packages.
 
-    Returns a list of tuples (name, path) where name is the full name of the message in
-    the form package_name/MessageName and path is the absolute path to the message file.
+    Returns a list of tuples (name, path) where name is the full name of the type in
+    the form package_name/TypeName and path is the absolute path to the type
+    declaration file.
     """
     rospack = rospkg.RosPack()
     pkgs = rospack.list()
@@ -17,15 +19,20 @@ def list_messages() -> List[Tuple[str, str]]:
     for p in pkgs:
         package_paths = rosmsg._get_package_paths(p, rospack)
         for package_path in package_paths:
-            d = Path(package_path) / "msg"
+            d = Path(package_path) / kind
             if d.is_dir():
                 packs.append((p, d))
-    msgs = []
+    types = []
+    kind_suffix = f".{kind}"
     for p, d in packs:
-        msgs.extend(
+        types.extend(
             [
-                (f"{p}/{file}", str((d / file).with_suffix(".msg")))
-                for file in rosmsg._list_types(d, "msg", ".msg")
+                (f"{p}/{file}", str((d / file).with_suffix(kind_suffix)))
+                for file in rosmsg._list_types(d, kind, kind_suffix)
             ],
         )
-    return msgs
+    return types
+
+
+list_messages = partial(_list_types, "msg")
+list_services = partial(_list_types, "srv")
