@@ -44,6 +44,8 @@ function M.msg_picker(opts) make_picker(opts, ros.list_messages(), 'message', 'r
 
 function M.srv_picker(opts) make_picker(opts, ros.list_services(), 'service', 'rossrv'):find() end
 
+function M.action_picker(opts) make_picker(opts, ros.list_actions(), 'action', 'rosaction'):find() end
+
 function M.ed_picker(opts)
   opts = opts or {}
   local packages = ros.list_packages()

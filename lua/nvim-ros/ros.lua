@@ -29,6 +29,10 @@ function M.list_messages() return M._call('list_messages') end
 ---@return table? List of { name, path } pairs.
 function M.list_services() return M._call('list_services') end
 
+---Get a list of ROS actions.
+---@return table? List of { name, path } pairs.
+function M.list_actions() return M._call('list_actions') end
+
 ---Get a list of ROS packages.
 ---@return table List of { name, path } pairs.
 function M.list_packages()
