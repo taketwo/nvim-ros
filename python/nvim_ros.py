@@ -36,3 +36,4 @@ def _list_types(kind: str) -> List[Tuple[str, str]]:
 
 list_messages = partial(_list_types, "msg")
 list_services = partial(_list_types, "srv")
+list_actions = partial(_list_types, "action")
