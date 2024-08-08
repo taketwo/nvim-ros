@@ -11,6 +11,11 @@ function M.setup(opts)
     Logger:debug('Telescope found, loading extension')
     telescope.load_extension('ros')
   end
+  local has_cmp, cmp = pcall(require, 'cmp')
+  if has_cmp then
+    Logger:debug('Cmp found, registering completion sources')
+    cmp.register_source('rosmsg', require('nvim-ros.cmp.sources').rosmsg.new())
+  end
   Logger:debug('Plugin setup completed')
 end
 
