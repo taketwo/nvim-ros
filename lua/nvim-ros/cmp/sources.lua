@@ -1,5 +1,5 @@
 local Logger = require('nvim-ros.logger')
-local ros = require('nvim-ros.ros')
+local Ros = require('nvim-ros.ros')
 
 local cmp = require('cmp')
 
@@ -14,7 +14,7 @@ end
 M.rosmsg.complete = function(self, _, callback)
   if #self.cache == 0 then
     Logger:debug('ROS message cache does not exist, creating it')
-    local messages = ros.list_messages()
+    local messages = Ros.list_messages()
     local items = {}
     for _, entry in ipairs(messages) do
       table.insert(items, {

@@ -7,9 +7,10 @@ local default_notify_opts = {
   title = 'nvim-ros',
 }
 
-local logger = {}
+---@class NvimRos.Logger
+local M = {}
 
-function logger:add_entry(msg, level)
+function M:add_entry(msg, level)
   if not self.__notify_fmt then
     self.__notify_fmt = function(m) return string.format(Config.options.notify_format, m) end
   end
@@ -38,34 +39,34 @@ end
 
 ---Get path to the log file
 ---@return string
-function logger:get_path() return vim.fn.stdpath('cache') .. '/nvim-ros.log' end
+function M:get_path() return vim.fn.stdpath('cache') .. '/nvim-ros.log' end
 
 ---Add a log entry at TRACE level
 ---@param msg any
-function logger:trace(msg) self:add_entry(msg, 'trace') end
+function M:trace(msg) self:add_entry(msg, 'trace') end
 
 ---Add a log entry at DEBUG level
 ---@param msg any
-function logger:debug(msg) self:add_entry(msg, 'debug') end
+function M:debug(msg) self:add_entry(msg, 'debug') end
 
 ---Add a log entry at INFO level
 ---@param msg any
-function logger:info(msg) self:add_entry(msg, 'info') end
+function M:info(msg) self:add_entry(msg, 'info') end
 
 ---Add a log entry at WARN level and display a notification
 ---@param msg any
-function logger:warn(msg)
+function M:warn(msg)
   self:add_entry(msg, 'warn')
   vim.notify(self.__notify_fmt(msg), vim.log.levels.WARN, default_notify_opts)
 end
 
 ---Add a log entry at ERROR level and display a notification
 ---@param msg any
-function logger:error(msg)
+function M:error(msg)
   self:add_entry(msg, 'error')
   vim.notify(self.__notify_fmt(msg), vim.log.levels.ERROR, default_notify_opts)
 end
 
-setmetatable({}, logger)
+setmetatable({}, M)
 
-return logger
+return M

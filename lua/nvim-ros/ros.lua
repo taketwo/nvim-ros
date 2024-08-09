@@ -1,6 +1,7 @@
 local Config = require('nvim-ros.config')
 local Logger = require('nvim-ros.logger')
 
+---@class NvimRos.Ros
 local M = {}
 
 ---Path to the python directory of this plugin.

@@ -1,9 +1,10 @@
 local Config = require('nvim-ros.config')
 local Logger = require('nvim-ros.logger')
 
+---@class NvimRos
 local M = {}
 
----@param opts? NvimRosConfig
+---@param opts? NvimRos.Opts
 function M.setup(opts)
   Config.setup(opts)
   local has_telescope, telescope = pcall(require, 'telescope')

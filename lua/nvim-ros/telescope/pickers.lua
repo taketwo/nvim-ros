@@ -1,5 +1,5 @@
 local Logger = require('nvim-ros.logger')
-local ros = require('nvim-ros.ros')
+local Ros = require('nvim-ros.ros')
 
 local actions = require('telescope.actions')
 local actions_state = require('telescope.actions.state')
@@ -40,15 +40,15 @@ end
 
 local M = {}
 
-function M.msg_picker(opts) make_picker(opts, ros.list_messages(), 'message', 'rosmsg'):find() end
+function M.msg_picker(opts) make_picker(opts, Ros.list_messages(), 'message', 'rosmsg'):find() end
 
-function M.srv_picker(opts) make_picker(opts, ros.list_services(), 'service', 'rossrv'):find() end
+function M.srv_picker(opts) make_picker(opts, Ros.list_services(), 'service', 'rossrv'):find() end
 
-function M.action_picker(opts) make_picker(opts, ros.list_actions(), 'action', 'rosaction'):find() end
+function M.action_picker(opts) make_picker(opts, Ros.list_actions(), 'action', 'rosaction'):find() end
 
 function M.ed_picker(opts)
   opts = opts or {}
-  local packages = ros.list_packages()
+  local packages = Ros.list_packages()
   pickers
     .new(opts, {
       prompt_title = 'ROS packages',
