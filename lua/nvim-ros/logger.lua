@@ -67,6 +67,4 @@ function M:error(msg)
   vim.notify(self.__notify_fmt(msg), vim.log.levels.ERROR, default_notify_opts)
 end
 
-setmetatable({}, M)
-
 return M
