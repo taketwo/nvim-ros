@@ -15,7 +15,7 @@ function M._call(fname)
   if python_path == nil then
     python_path = Config.me .. '/python'
     Logger:debug('Adding ' .. python_path .. ' directory to Python sys.path')
-    vim.fn.py3eval('sys.path.insert(0, "' .. python_path .. '")')
+    vim.fn.py3eval('__import__("sys").path.insert(0, "' .. python_path .. '")')
   end
   local expr = '__import__("nvim_ros").' .. fname .. '()'
   Logger:debug('Evaluating Python expression `' .. expr .. '`')
