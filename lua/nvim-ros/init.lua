@@ -12,6 +12,8 @@ function M.setup(opts)
     Logger:debug('Telescope found, loading extension')
     telescope.load_extension('ros')
   end
+  local has_snacks = pcall(require, 'snacks')
+  if has_snacks then Logger:debug('Snacks found, snacks pickers will be available') end
   local has_cmp, cmp = pcall(require, 'cmp')
   if has_cmp then
     Logger:debug('Cmp found, registering completion sources')

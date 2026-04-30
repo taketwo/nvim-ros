@@ -4,6 +4,7 @@
       "plugins": [
         "nvim-cmp",
         "plenary.nvim",
+        "snacks.nvim",
         "telescope.nvim"
       ]
     }
