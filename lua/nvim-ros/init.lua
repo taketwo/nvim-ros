@@ -14,11 +14,8 @@ function M.setup(opts)
   end
   local has_snacks = pcall(require, 'snacks')
   if has_snacks then Logger:debug('Snacks found, snacks pickers will be available') end
-  local has_cmp, cmp = pcall(require, 'cmp')
-  if has_cmp then
-    Logger:debug('Cmp found, registering completion sources')
-    cmp.register_source('rosmsg', require('nvim-ros.cmp.sources').rosmsg.new())
-  end
+  local has_blink = pcall(require, 'blink.cmp')
+  if has_blink then Logger:debug('Blink found, blink completion source will be available') end
   Logger:debug('Plugin setup completed')
 end
 
