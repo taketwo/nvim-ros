@@ -40,4 +40,30 @@ function M.srv_picker(opts) make_picker('ROS services', 'rossrv', Ros.list_servi
 ---@param opts snacks.picker.Config?
 function M.action_picker(opts) make_picker('ROS actions', 'rosaction', Ros.list_actions, opts) end
 
+---Open a picker for files from ROS packages.
+---@param opts snacks.picker.Config?
+function M.file_picker(opts)
+  local ok, snacks = pcall(require, 'snacks')
+  if not ok then
+    Logger:error('snacks.nvim is required for snacks pickers')
+    return
+  end
+  snacks.picker(vim.tbl_extend('force', {
+    title = 'ROS packages',
+    format = 'text',
+    layout = { preview = false },
+    finder = function()
+      local items = {}
+      for _, entry in ipairs(Ros.list_packages()) do
+        items[#items + 1] = { text = entry[1], dir = entry[2] }
+      end
+      return items
+    end,
+    confirm = function(picker, item)
+      picker:close()
+      if item then snacks.picker.files({ cwd = item.dir }) end
+    end,
+  }, opts or {}))
+end
+
 return M
