@@ -62,7 +62,17 @@ function M.file_picker(opts)
     end,
     confirm = function(picker, item)
       picker:close()
-      if item then Snacks.picker.files({ cwd = item.dir }) end
+      if item then
+        Snacks.picker.files({
+          cwd = item.dir,
+          transform = function(i)
+            if i.cwd and i.file then
+              i.file = vim.fs.joinpath(i.cwd, i.file)
+              i.cwd = nil
+            end
+          end,
+        })
+      end
     end,
   }, opts or {}))
 end
