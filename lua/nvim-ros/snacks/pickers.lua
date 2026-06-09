@@ -1,6 +1,9 @@
 local Logger = require('nvim-ros.logger')
 local Ros = require('nvim-ros.ros')
 
+local ok, Snacks = pcall(require, 'snacks') ---@type boolean, Snacks?
+if not ok then Snacks = nil end
+
 ---@class NvimRos.Snacks.Pickers
 local M = {}
 
@@ -9,12 +12,11 @@ local M = {}
 ---@param list_fn fun(): table?
 ---@param opts snacks.picker.Config?
 local function make_picker(title, ft, list_fn, opts)
-  local ok, snacks = pcall(require, 'snacks')
-  if not ok then
+  if not Snacks then
     Logger:error('snacks.nvim is required for snacks pickers')
     return
   end
-  snacks.picker(vim.tbl_extend('force', {
+  Snacks.picker(vim.tbl_extend('force', {
     title = title,
     finder = function()
       local items = {}
@@ -43,12 +45,11 @@ function M.action_picker(opts) make_picker('ROS actions', 'rosaction', Ros.list_
 ---Open a picker for files from ROS packages.
 ---@param opts snacks.picker.Config?
 function M.file_picker(opts)
-  local ok, snacks = pcall(require, 'snacks')
-  if not ok then
+  if not Snacks then
     Logger:error('snacks.nvim is required for snacks pickers')
     return
   end
-  snacks.picker(vim.tbl_extend('force', {
+  Snacks.picker(vim.tbl_extend('force', {
     title = 'ROS packages',
     format = 'text',
     layout = { preview = false },
@@ -61,7 +62,7 @@ function M.file_picker(opts)
     end,
     confirm = function(picker, item)
       picker:close()
-      if item then snacks.picker.files({ cwd = item.dir }) end
+      if item then Snacks.picker.files({ cwd = item.dir }) end
     end,
   }, opts or {}))
 end
