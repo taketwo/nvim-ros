@@ -39,7 +39,7 @@ end
 
 ---Get path to the log file
 ---@return string
-function M:get_path() return vim.fn.stdpath('cache') .. '/nvim-ros.log' end
+function M:get_path() return vim.fn.stdpath('log') .. '/nvim-ros.log' end
 
 ---Add a log entry at TRACE level
 ---@param msg any
